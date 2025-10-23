@@ -1,0 +1,23 @@
+﻿using Logix.Application.Interfaces.IRepositories.FXA;
+using Logix.Domain.FXA;
+using Logix.Infrastructure.DbContexts;
+using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
+
+namespace Logix.Infrastructure.Repositories.FXA
+{
+	public class FxaFixedAssetRepository : GenericRepository<FxaFixedAsset>, IFxaFixedAssetRepository
+    {
+        private ApplicationDbContext _context;
+
+        public FxaFixedAssetRepository(ApplicationDbContext context) : base(context)
+        {
+            this._context = context;
+        }
+
+        public async Task<IEnumerable<FxaFixedAssetVw2>> GetAllVW2(Expression<Func<FxaFixedAssetVw2, bool>> expression)
+        {
+            return await _context.Set<FxaFixedAssetVw2>().Where(expression).AsNoTracking().ToListAsync();
+        }
+    } 
+}
